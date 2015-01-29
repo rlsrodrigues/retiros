@@ -2,11 +2,11 @@
 
 ** Important! This is a project in development yet, you can help me to finish that, do your pull request! **
 
-short and simple, but powerfull system to manage religious events, criado e mantido por [Renato Rodrigues](http://rlsrodrigues.com.br).
+short and simple, but powerfull system to manage religious events, created and maintained by [Renato Rodrigues](http://rlsrodrigues.com.br).
 
 ## Start
 
-1 - Clone this - `git clone git://github.com/rlsrodrigues/bootstrap-theme.git`;
+1 - Clone this - `git clone git://github.com/rlsrodrigues/retiros.git`;
 
 2 - Create database (default script in `application/db/retiros.sql`);
 
