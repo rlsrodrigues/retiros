@@ -4,9 +4,6 @@
 
 short and simple, but powerfull system to manage religious events, criado e mantido por [Renato Rodrigues](http://rlsrodrigues.com.br).
 
-### Backend: [CodeIgniter](http://www.codeigniter.com/)
-### Frontend: [Twitter Bootstrap 2.3.2](http://getbootstrap.com/2.3.2/)
-
 ## Start
 
 1 - Clone this - `git clone git://github.com/rlsrodrigues/bootstrap-theme.git`;
@@ -16,6 +13,8 @@ short and simple, but powerfull system to manage religious events, criado e mant
 3 - Change the database config (`application/database.php`) to your local config;
 
 4 - End initial config! Now, test your system!
+
+Backend: [CodeIgniter](http://www.codeigniter.com/) Frontend: [Twitter Bootstrap 2.3.2](http://getbootstrap.com/2.3.2/)
 
 ## Author
 
