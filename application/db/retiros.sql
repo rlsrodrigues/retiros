@@ -1,15 +1,6 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+CREATE DATABASE IF NOT EXISTS `retiros`;
 
---
--- Database: `retiros`
---
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `integrantes`
---
+USE `retiros`;
 
 CREATE TABLE IF NOT EXISTS `integrantes` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
