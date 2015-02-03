@@ -5,6 +5,7 @@ class Index extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->helper('url');
+		$this->load->model('integrantes');
 	}
 
 	public function index()
@@ -90,60 +91,29 @@ class Index extends CI_Controller {
 
 		$page['validationError'] = 0;
 
-		if (isset($_POST['nome']) && $this->form_validation->run() == FALSE){
+
+
+		if ($this->input->post('nome') && $this->form_validation->run() == FALSE){
 
 			$page['validationError'] = 1;
 
 		}
 
-		if(isset($_POST['nome'])) {
+		if($this->input->post('nome')) {
 
-			if ( $this->cadastro($_POST)) {
-				$page['msgSuccess'] = '<strong> ' . $_POST['nome'] . '</strong> cadastro efetuado com sucesso, muito obrigado!';
+			if ( $this->integrantes->cadastro($this->input->post(NULL, TRUE))) {
+				$page['msgSuccess'] = '<strong> ' . $this->input->post('nome', true) . '</strong> cadastro efetuado com sucesso, muito obrigado!';
 			} else {
-				$page['msgError'] = '<strong> ' . $_POST['nome'] . '</strong> Tudo me leva a crer que você já se cadastrou!';
+				$page['msgError'] = '<strong> ' . $this->input->post('nome', true) . '</strong> Tudo me leva a crer que você já se cadastrou!';
 			}
 
 		}
 
-		$this->load->view('index', $page);
-
-		
+		$this->load->view('index', $page);		
 
 	}
 
-	public function cadastro($dataForm)
-	{
-
-		$table = 'integrantes';
-
-		$this->load->database();
-
-		$cadastroExistente = $this->db->query('SELECT email from ' . $table . ' where email = "' . $dataForm['email'] . '"');
-
-		if($cadastroExistente->num_rows() <= 0) {
-
-			$data = array(
-			'nome'				=> $dataForm['nome'],
-		    'email' 			=> $dataForm['email'],
-		    'comunidade' 		=> $dataForm['comunidade'],
-		    'telefone_fixo' 	=> $dataForm['telefone_fixo'],
-		    'celular' 			=> $dataForm['celular'],
-		    'data_nascimento' 	=> $dataForm['data_nascimento'],
-		    'primeiro_retiro' 	=> $dataForm['primeiro_retiro'],
-		    'observacoes' 		=> $dataForm['observacoes']
-			);
-
-			if ($this->db->insert($table, $data)) {
-				return true;
-			}
-
-		}
-
-		return false;
-
-
-	}
+	
 
 	public function login()
 	{
