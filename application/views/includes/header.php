@@ -8,12 +8,10 @@
 		<meta name="author" content="Renato Rodrigues - Rlsrodrigues">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-		<link href="<?php echo base_url(); ?>assets/css/bootstrap.css" rel="stylesheet">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/retiros-theme.css">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/custom_retiros.css">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/screen.css">
-
+        <?php echo link_tag('assets/css/bootstrap.css'); ?>
+        <?php echo link_tag('assets/css/retiros-theme.css'); ?>
+        <?php echo link_tag('assets/css/custom_retiros.css'); ?>
+        <?php echo link_tag('assets/css/screen.css'); ?>
         <script src="<?php echo base_url(); ?>assets/js/jquery-1.11.1.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/jquery.validate.js"></script>
