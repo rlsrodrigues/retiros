@@ -4,31 +4,23 @@ class Index extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('url');
 		$this->load->model('integrantes');
 	}
 
 	public function index()
 	{
 
-
-		//config SEO
 		$seoParams = array(
 			'title' 		=> 'Página Inicial', 
 			'description' 	=> 'Esta é página inicial do sistema de gerenciamento de retiros',
 			'keywords' 		=> 'Retiros, Deus é mais, Deus é fiel'
 			);
-
 		$this->load->library('Seo', $seoParams);
-
 		$this->load->view('includes/header', $this->seo->getSeoData());
 
-		//config Page
 		$page['title'] = 'Formulário de cadastro Encontro com Deus';
 
-
 		$this->load->helper('form');
-
 		$inputNome = array(
 			'name'        => 'nome',
 			'id'          => 'nome',
@@ -71,7 +63,7 @@ class Index extends CI_Controller {
 			'class'       => 'form-control input-text input-celular',
 			'placeholder' => 'Por ex: sou intolerante a lactose, sou hipertenso, ou algo do genêro.'
         );
-
+        
         $page['inputNome'] = $inputNome;
         $page['inputEmail'] = $inputEmail;
         $page['inputComunidade'] = $inputComunidade;
