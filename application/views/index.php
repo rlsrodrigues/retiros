@@ -1,7 +1,7 @@
 		<div class="jumbotron">
             <div class="container">
                 <div class="row">                
-                    <h2>Cadastro de participantes</h2>                 
+					<?php echo heading('Cadastro de participantes', 2) ?>                   
                 </div>
             </div>
         </div>
@@ -77,7 +77,7 @@
 			                    <div class="form-group">
 			                        <label for="billName" class="col-sm-3 control-label">Data de Nascimento:</label>
 			                        <div class="col-sm-9">
-			                            <input type="date" name="data_nascimento" value="" id="dataNascimento" class="form-control input-text input-data-nascimento" placeholder="Data de Nascimento">
+			                            <?php echo form_input($inputDataNascimento); ?>
 			                        </div>
 			                    </div>
 			                    <div class="form-group">

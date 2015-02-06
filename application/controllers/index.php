@@ -15,6 +15,7 @@ class Index extends CI_Controller {
 			'description' 	=> 'Esta é página inicial do sistema de gerenciamento de retiros',
 			'keywords' 		=> 'Retiros, Deus é mais, Deus é fiel'
 			);
+
 		$this->load->library('Seo', $seoParams);
 		$this->load->view('includes/header', $this->seo->getSeoData());
 
@@ -51,6 +52,12 @@ class Index extends CI_Controller {
 			'class'       => 'form-control input-text input-celular',
 			'placeholder' => 'Celular'
         );
+        $inputDataNascimento = array(
+			'name'        => 'data_nascimento',
+			'id'          => 'dataNascimento',
+			'class'       => 'form-control input-text input-data_nascimento',
+			'placeholder' => '00-00-0000'
+        );
         $inputPrimeiroRetiro = array(
 			'name'        => 'primeiro_retiro',
 			'id'          => 'primeiroRetiro',
@@ -69,6 +76,7 @@ class Index extends CI_Controller {
         $page['inputComunidade'] = $inputComunidade;
         $page['inputTelefoneFixo'] = $inputTelefoneFixo;
         $page['inputCelular'] = $inputCelular;
+        $page['inputDataNascimento'] = $inputDataNascimento;
         $page['inputPrimeiroRetiro'] = $inputPrimeiroRetiro;
         $page['inputObservacoes'] = $inputObservacoes;
 
@@ -83,8 +91,6 @@ class Index extends CI_Controller {
 
 		$page['validationError'] = 0;
 
-
-
 		if ($this->input->post('nome') && $this->form_validation->run() == FALSE){
 
 			$page['validationError'] = 1;
@@ -93,7 +99,18 @@ class Index extends CI_Controller {
 
 		if($this->input->post('nome')) {
 
-			if ( $this->integrantes->cadastro($this->input->post(NULL, TRUE))) {
+			$data = array(
+			'nome'				=> $this->input->post('nome', TRUE),
+		    'email' 			=> $this->input->post('email', TRUE),
+		    'comunidade' 		=> $this->input->post('comunidade', TRUE),
+		    'telefone_fixo' 	=> $this->input->post('telefone_fixo', TRUE),
+		    'celular' 			=> $this->input->post('celular', TRUE),
+		    'data_nascimento' 	=> date('Y-m-d', strtotime($this->input->post('data_nascimento', TRUE))),
+		    'primeiro_retiro' 	=> $this->input->post('primeiro_retiro', TRUE),
+		    'observacoes' 		=> $this->input->post('observacoes', TRUE)
+			);
+
+			if ( $this->integrantes->cadastro($data)) {
 				$page['msgSuccess'] = '<strong> ' . $this->input->post('nome', true) . '</strong> cadastro efetuado com sucesso, muito obrigado!';
 			} else {
 				$page['msgError'] = '<strong> ' . $this->input->post('nome', true) . '</strong> Tudo me leva a crer que você já se cadastrou!';
@@ -102,15 +119,6 @@ class Index extends CI_Controller {
 		}
 
 		$this->load->view('index', $page);		
-
-	}
-
-	
-
-	public function login()
-	{
-		
-		
 
 	}
 

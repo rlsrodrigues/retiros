@@ -15,29 +15,15 @@ class Integrantes extends CI_Model {
 	public function cadastro($dataForm)
 	{
 
-
-
 		if($this->verificaEmailCadastrado($dataForm['email'])) {
 
-			$data = array(
-			'nome'				=> $dataForm['nome'],
-		    'email' 			=> $dataForm['email'],
-		    'comunidade' 		=> $dataForm['comunidade'],
-		    'telefone_fixo' 	=> $dataForm['telefone_fixo'],
-		    'celular' 			=> $dataForm['celular'],
-		    'data_nascimento' 	=> $dataForm['data_nascimento'],
-		    'primeiro_retiro' 	=> $dataForm['primeiro_retiro'],
-		    'observacoes' 		=> $dataForm['observacoes']
-			);
-
-			if ($this->db->insert($this->table, $data)) {
+			if ($this->db->insert($this->table, $dataForm)) {
 				return true;
 			}
 
 		}
 
 		return false;
-
 
 	}
 
