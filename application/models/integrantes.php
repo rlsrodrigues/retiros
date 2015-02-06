@@ -4,11 +4,10 @@ class Integrantes extends CI_Model {
 
 	private $table;
 
-	public function __construct(){
+	function __construct(){
 
 		parent::__construct();
 		$this->table = 'integrantes';
-		$this->load->database();
 
 	}
 

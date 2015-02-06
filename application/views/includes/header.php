@@ -58,6 +58,9 @@
                         <li>
                             <a href="<?php echo base_url(); ?>">Cadastro</a>
                         </li>
+                        <li>
+                            <a href="<?php echo base_url(); ?>retiros">Retiros</a>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sistema <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
