@@ -1,6 +1,6 @@
 <?php 
 
-class Integrantes extends CI_Model {
+class Integrantes_model extends CI_Model {
 
 	private $table;
 
