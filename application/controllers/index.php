@@ -4,7 +4,7 @@ class Index extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('integrantes');
+		$this->load->model('integrantes_model');
 	}
 
 	public function index()
@@ -110,7 +110,7 @@ class Index extends CI_Controller {
 		    'observacoes' 		=> $this->input->post('observacoes', TRUE)
 			);
 
-			if ( $this->integrantes->cadastro($data)) {
+			if ( $this->integrantes_model->cadastro($data)) {
 				$page['msgSuccess'] = '<strong> ' . $this->input->post('nome', true) . '</strong> cadastro efetuado com sucesso, muito obrigado!';
 			} else {
 				$page['msgError'] = '<strong> ' . $this->input->post('nome', true) . '</strong> Tudo me leva a crer que você já se cadastrou!';
