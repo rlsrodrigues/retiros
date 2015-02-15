@@ -5,19 +5,40 @@ class Retiros extends CI_controller {
 	{
 		parent::__construct();
 		$this->load->model('retiros_model');
+
 	}
 
-	public function index() 
+	public function index($msg="") 
 	{
 
+		//mensagens de erro e validação de formulário
+		if ($msg == 'success')		
+			$messages['msgSuccess'] = 'Retiro <strong> ' . $this->input->post('nome', true) . '</strong> criado com sucesso, agora você precisa criar as equipes';
+
+		if ($msg == 'false')
+			$messages['msgError'] = 'Houve um erro ao criar o retiro <strong> ' . $this->input->post('nome', true) . '</strong>!';
+
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('nome', 'Nome', 'required');
+		$this->form_validation->set_rules('data_inicio', 'Início', 'required');
+		$this->form_validation->set_rules('data_fim', 'Fim', 'required');
+
+		$messages['validationError'] = 0;
+		if ($this->input->post('nome') && $this->form_validation->run() == FALSE) {
+			$messages['validationError'] = 1;
+
+		}
+
+		// Parâmetros de SEO da página
 		$seoParams = array(
 			'title' 		=> 'Retiros', 
 			'description' 	=> 'Página de gerenciamento de retiros',
 			'keywords' 		=> ''
 			);
-
+		
 		$this->load->library('Seo', $seoParams);
 
+		//criando formulário de inserção
 		$this->load->helper('form');
 		$inputNome 			= array( 'name' => 'nome', 'id' => 'nome', 'class' => 'form-control input-text input-nome', 'placeholder' => 'Nome do retiro');
 		$inputTema 			= array( 'name' => 'tema', 'id' => 'tema', 'class' => 'form-control input-text input-tema', 'placeholder' => 'Tema');
@@ -36,20 +57,10 @@ class Retiros extends CI_controller {
 		$page['inputLocal'] 		= $inputLocal;
 		$page['inputEndereco'] 		= $inputEndereco;
 		$page['inputObservacoes'] 	= $inputObservacoes;
+		$page['titleForm'] 			= 'Novo Retiro';
 
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('nome', 'Nome', 'required');
-		$this->form_validation->set_rules('data_inicio', 'Início', 'required');
-		$this->form_validation->set_rules('data_fim', 'Fim', 'required');
 
-		$page['validationError'] = 0;
-
-		if ($this->input->post('nome') && $this->form_validation->run() == FALSE){
-
-			$page['validationError'] = 1;
-
-		}
-
+		//regras de cadastro e inserção de dados no banco
 		if($this->input->post('nome')) {
 
 			$data = array(
@@ -60,21 +71,49 @@ class Retiros extends CI_controller {
 		    'data_fim' 		=> date('Y-m-d', strtotime($this->input->post('data_fim', TRUE))),
 		    'local' 		=> $this->input->post('local', TRUE),
 		    'endereco'		=> $this->input->post('endereco', TRUE),
-		    'observacoes' 	=> $this->input->post('observacoes', TRUE)
+		    'observacoes' 	=> $this->input->post('observacoes', TRUE),
+		    'criacao'		=> date('Y-m-d H:i:s'),
+		    'status'		=> 1
 			);
 
+
 			if ( $this->retiros_model->cadastro($data)) {
-				$page['msgSuccess'] = 'Retiro <strong> ' . $this->input->post('nome', true) . '</strong> criado com sucesso, agora você precisa criar as equipes';
+				redirect(base_url() . 'retiros/index/success', 'refresh');
 			} else {
-				$page['msgError'] = 'Houve um erro ao criar o retiro <strong> ' . $this->input->post('nome', true) . '</strong>!';
+				redirect(base_url() . 'retiros/index/false', 'refresh');
 			}
 
 		}
+		
+		//definição de dados e informações da página
+		$pageInfo['titlePage'] 	= 'Gerenciar Retiros';
+		$pageInfo['textPage'] 	= 'Parabéns! Você é o novo coordenador, vamos começar um novo trabalho?';
 
+		//recuperando informaação de retiros cadastrados e ativos
+		$listRetiros['retirosAtivos'] = $this->retiros_model->lista();
+		$listRetiros['titleList'] ='Retiros Ativos';
+
+		//setando views
 		$this->load->view('includes/header', $this->seo->getSeoData());
-		$this->load->view('retiros_index', $page);
+		$this->load->view('includes/page_info', $pageInfo);
+		$this->load->view('includes/messages', $messages);
+		$this->load->view('list_retiros', $listRetiros);
+		$this->load->view('form_retiros', $page);
 		$this->load->view('includes/footer');
 
+	}
+
+	public function editar($id) 
+	{
+		$pageInfo['titlePage'] 	= 'Editar Retiro';
+		$pageInfo['textPage'] 	= 'Parabéns! Você é o novo coordenador, vamos começar um novo trabalho?';
+
+		//setando views
+		$this->load->view('includes/header', $this->seo->getSeoData());
+		$this->load->view('includes/page_info', $pageInfo);
+		$this->load->view('includes/messages', $messages);
+		$this->load->view('form_retiros', $page);
+		$this->load->view('includes/footer');
 	}
 
 }

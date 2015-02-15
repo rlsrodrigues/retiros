@@ -22,4 +22,13 @@ class Retiros_model extends CI_Model {
 
 	}
 
+	public function lista()
+	{
+		$this->db->where('status', 1);
+		$this->db->or_where('status', 2);
+		$query = $this->db->get('retiros');
+
+		return $query->result();
+	}
+
 }
