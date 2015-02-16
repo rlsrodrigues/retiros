@@ -24,7 +24,7 @@
 							<?php foreach ( $retirosAtivos as $retiro ) : ?>
 								<tr>
 									<td>
-										<a href="<?php echo base_url() . 'retiros/editar?id=' . $retiro->id ?>">
+										<a href="<?php echo base_url() . 'retiros/editar/' . $retiro->id ?>">
 											<?php echo $retiro->nome ?>
 										</a>
 									</td>	

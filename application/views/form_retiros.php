@@ -16,7 +16,12 @@
 			            
 			                <?php 
 			                	$attr = array('class' => 'form-horizontal', 'id' => 'formCadastro', 'role'=>"form");
-			                	echo form_open('retiros/index', $attr); 
+			                	if ($action == 'editar') {
+			                		echo form_open('retiros/editar', $attr); 
+			                		echo form_hidden('id', $id);
+			                	} else {
+			                		echo form_open('retiros/index', $attr); 
+			                	}
 			                ?>
 			                    
 			                    <div class="form-group">
@@ -68,8 +73,9 @@
 			                        </div>
 			                    </div>
 			                    <div class="form-group">
+			                    	<div class="col-sm-3"></div>
 			                        <div class="col-sm-9">
-			                    		<?php echo form_submit('enviar', 'Criar!', "class='btn btn-info center-block'"); ?>
+			                    		<?php echo form_submit('enviar', 'Salvar', "class='btn btn-info center-block'"); ?>
 			                        </div>
 			                    </div>
 			                    

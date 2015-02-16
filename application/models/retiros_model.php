@@ -11,7 +11,7 @@ class Retiros_model extends CI_Model {
 
 	}
 
-	public function cadastro($dataForm)
+	public function cadastra($dataForm)
 	{
 
 		if ($this->db->insert($this->table, $dataForm)) {
@@ -29,6 +29,39 @@ class Retiros_model extends CI_Model {
 		$query = $this->db->get('retiros');
 
 		return $query->result();
+	}
+
+	public function obterRetiro($id) 
+	{
+
+		$this->db->where('id', $id);
+		$query = $this->db->get('retiros');
+
+		return $query->result();
+
+	}
+
+	public function edita($id, $dataForm) 
+	{	
+
+		$this->db->where('id', $id);
+
+		if ($this->db->update($this->table, $dataForm)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function deleta($id) 
+	{
+		$this->db->where('id', $id);
+
+		if ($this->db->delete($this->table)) {
+			return true;
+		}
+
+		return false;
 	}
 
 }
