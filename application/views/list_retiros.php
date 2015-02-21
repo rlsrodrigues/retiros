@@ -1,10 +1,14 @@
-	<?php if ( $retirosAtivos ) : ?>
 		<div class="container">  
 			<div class="col-sm-12">
 				<div class="row">
-					<div class="col-sm-2"></div>
-					<div class="col-sm-8">
+					<div class="col-sm-1"></div>
+					<div class="col-sm-8">						
 						<?php echo heading($titleList, 3) ?> 
+					</div>
+					<div class="col-sm-2 text-right">
+						<a href="<?php echo base_url(); ?>retiros/incluir" class="btn btn-info">
+							Adicionar novo
+						</a>
 	                </div>
 				</div> 
 	            <div class="row">
@@ -47,4 +51,3 @@
 	            </div>
 	        </div>
         </div>
-    <?php endif; ?>

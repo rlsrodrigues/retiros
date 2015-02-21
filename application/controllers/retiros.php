@@ -5,10 +5,11 @@ class Retiros extends CI_controller {
 	{
 		parent::__construct();
 		$this->load->model('retiros_model');
+		$this->load->helper('form');
 
 	}
 
-	public function index($msg="") 
+	public function index($msg="")
 	{
 
 		//mensagens de erro e validação de formulário
@@ -17,6 +18,49 @@ class Retiros extends CI_controller {
 
 		if ($msg == 'false')
 			$messages['msgError'] = 'Houve um erro ao criar o retiro <strong> ' . $this->input->post('nome', true) . '</strong>!';
+
+		// Parâmetros de SEO da página
+		$seoParams = array(
+			'title' 		=> 'Retiros', 
+			'description' 	=> 'Página de gerenciamento de retiros',
+			'keywords' 		=> ''
+			);
+		
+		$this->load->library('Seo', $seoParams);
+
+		//definição de dados e informações da página
+		$pageInfo['titlePage'] 	= 'Gerenciar Retiros';
+		$pageInfo['textPage'] 	= 'Parabéns! Você é o novo coordenador, vamos começar um novo trabalho?';
+
+		//recuperando informaação de retiros cadastrados e ativos
+		$listRetiros['retirosAtivos'] = $this->retiros_model->obterRetiros();
+		$listRetiros['titleList'] ='Retiros Ativos';
+
+		if ( count($listRetiros['retirosAtivos']) == 0) {
+
+			$resultsError['message'] = 'Ainda não temos retiro cadastrado.';
+			$resultsError['addButton'] = true;
+			$resultsError['addButtonLink'] = base_url() . 'retiros/incluir';
+
+		}
+
+		//setando views
+		$this->load->view('includes/header', $this->seo->getSeoData());
+		if(isset($messages)){
+			$this->load->view('includes/page_info', $pageInfo);
+			$this->load->view('includes/messages', $messages);
+		}
+		if (isset($resultsError) && $resultsError != ''){
+			$this->load->view('no_results', $resultsError);
+		} else {
+			$this->load->view('list_retiros', $listRetiros);
+		}
+		$this->load->view('includes/footer');
+
+	}
+
+	public function incluir($msg="") 
+	{
 
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nome', 'Nome', 'required');
@@ -31,15 +75,18 @@ class Retiros extends CI_controller {
 
 		// Parâmetros de SEO da página
 		$seoParams = array(
-			'title' 		=> 'Retiros', 
+			'title' 		=> 'Incluir Retiro', 
 			'description' 	=> 'Página de gerenciamento de retiros',
 			'keywords' 		=> ''
 			);
 		
 		$this->load->library('Seo', $seoParams);
 
+		//definição de dados e informações da página
+		$pageInfo['titlePage'] 	= 'Incluir Retiro';
+		$pageInfo['textPage'] 	= 'Preencha os campos abaixo e clique em "Salvar"';
+
 		//criando formulário de inserção
-		$this->load->helper('form');
 		$inputNome 			= array( 'name' => 'nome', 'id' => 'nome', 'class' => 'form-control input-text input-nome', 'placeholder' => 'Nome do retiro');
 		$inputTema 			= array( 'name' => 'tema', 'id' => 'tema', 'class' => 'form-control input-text input-tema', 'placeholder' => 'Tema');
 		$inputMusica 		= array( 'name' => 'musica', 'id' => 'musica', 'class' => 'form-control input-text input-musica', 'placeholder' => 'Música');
@@ -86,19 +133,11 @@ class Retiros extends CI_controller {
 
 		}
 		
-		//definição de dados e informações da página
-		$pageInfo['titlePage'] 	= 'Gerenciar Retiros';
-		$pageInfo['textPage'] 	= 'Parabéns! Você é o novo coordenador, vamos começar um novo trabalho?';
-
-		//recuperando informaação de retiros cadastrados e ativos
-		$listRetiros['retirosAtivos'] = $this->retiros_model->lista();
-		$listRetiros['titleList'] ='Retiros Ativos';
 
 		//setando views
 		$this->load->view('includes/header', $this->seo->getSeoData());
 		$this->load->view('includes/page_info', $pageInfo);
 		$this->load->view('includes/messages', $messages);
-		$this->load->view('list_retiros', $listRetiros);
 		$this->load->view('form_retiros', $page);
 		$this->load->view('includes/footer');
 
@@ -140,13 +179,14 @@ class Retiros extends CI_controller {
 
 		}
 
+		$resultsError = '';
+
 		//Recuperando dados do retiro
 		$retiro = $this->retiros_model->obterRetiro($id);
 
 		if ( $retiro ) {
 
 			//criando formulário de inserção
-			$this->load->helper('form');
 			$inputNome 			= array( 'name' => 'nome', 'id' => 'nome', 'class' => 'form-control input-text input-nome', 'placeholder' => 'Nome do retiro', 'value' => $retiro[0]->nome);
 			$inputTema 			= array( 'name' => 'tema', 'id' => 'tema', 'class' => 'form-control input-text input-tema', 'placeholder' => 'Tema', 'value' => $retiro[0]->tema);
 			$inputMusica 		= array( 'name' => 'musica', 'id' => 'musica', 'class' => 'form-control input-text input-musica', 'placeholder' => 'Música', 'value' => $retiro[0]->musica);
@@ -168,23 +208,27 @@ class Retiros extends CI_controller {
 			$page['titleForm'] 			= 'Novo Retiro';
 			$page['id'] 				= $id;
 
-			//setando views
-			$this->load->view('includes/header', $this->seo->getSeoData());
+		} else {
+
+			$resultsError['message'] = 'O Retiro solicitado não foi encontrado, verifique e tente novamente';
+			$resultsError['backButton'] = true;
+			$resultsError['backButtonLink'] = base_url() . 'retiros/';
+
+		}
+
+		//setando views
+		$this->load->view('includes/header', $this->seo->getSeoData());
+		if (empty($resultsError) && $resultsError == '') {
+
 			$this->load->view('includes/page_info', $pageInfo);;
 			$this->load->view('form_retiros', $page);
-			$this->load->view('includes/footer');
 
 		} else {
 
-			$resultsError['keySearch'] = 'Retiro';
-			$resultsError['buttonLink'] = base_url() . 'retiros/';
-
-			//setando views
-			$this->load->view('includes/header', $this->seo->getSeoData());
 			$this->load->view('no_results', $resultsError);
-			$this->load->view('includes/footer');
 
 		}
+		$this->load->view('includes/footer');
 
 	}
 

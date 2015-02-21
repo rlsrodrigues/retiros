@@ -10,7 +10,7 @@
                                         <?php echo $msgSuccess; ?>
     	                            </div>
                     			<?php } ?>
-                    			<?php if($validationError == 1) { ?>
+                    			<?php if(isset($validationError) && $validationError == 1) { ?>
                     				<div class="alert alert-danger">
     	                                <a href="#" class="close" data-dismiss="alert">x</a>
                                         <?php echo validation_errors(); ?>

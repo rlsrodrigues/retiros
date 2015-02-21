@@ -3,8 +3,8 @@
             <div class="col-sm-12">
 
             		<div class="row">
-						<div class="col-sm-2"></div>
-						<div class="col-sm-8">
+						<div class="col-sm-1"></div>
+						<div class="col-sm-10">
 							<?php echo heading($titleForm, 3) ?> 
 		                </div>
 					</div> 
@@ -20,7 +20,7 @@
 			                		echo form_open('retiros/editar', $attr); 
 			                		echo form_hidden('id', $id);
 			                	} else {
-			                		echo form_open('retiros/index', $attr); 
+			                		echo form_open('retiros/incluir', $attr); 
 			                	}
 			                ?>
 			                    

@@ -22,7 +22,7 @@ class Retiros_model extends CI_Model {
 
 	}
 
-	public function lista()
+	public function obterRetiros()
 	{
 		$this->db->where('status', 1);
 		$this->db->or_where('status', 2);
