@@ -46,15 +46,17 @@ class Retiros extends CI_controller {
 
 		//setando views
 		$this->load->view('includes/header', $this->seo->getSeoData());
-		if(isset($messages)){
 			$this->load->view('includes/page_info', $pageInfo);
+		
+		if (isset($messages)){			
 			$this->load->view('includes/messages', $messages);
-		}
-		if (isset($resultsError) && $resultsError != ''){
+		} elseif (isset($resultsError) && $resultsError != ''){
 			$this->load->view('no_results', $resultsError);
 		} else {
+			$this->load->view('includes/page_info', $pageInfo);
 			$this->load->view('list_retiros', $listRetiros);
 		}
+
 		$this->load->view('includes/footer');
 
 	}
@@ -232,6 +234,34 @@ class Retiros extends CI_controller {
 
 	}
 
+	/**
+	*
+	* Suprimindo a capacidade de deletar ao deletar um retiro o status é marcado com 0.
+	*/
+	public function deletar()
+	{
+
+		if($this->input->post('deletar')) {
+
+			$data = array(
+			    'status'		=> 0
+			);
+
+			if ($this->retiros_model->edita($this->input->post('id'), $data)) {
+				redirect(base_url() . 'retiros/index/success', 'refresh');
+			} else {
+				redirect(base_url() . 'retiros/index/false', 'refresh');
+			}
+
+		} else {
+
+			redirect(base_url() . 'retiros/', 'refresh');
+
+		}
+
+	}
+
+	/* Verdadeira função deletar
 	public function deletar()
 	{
 		if($this->input->post('deletar')) {
@@ -249,5 +279,6 @@ class Retiros extends CI_controller {
 		}
 
 	}
+	*/
 
 }
